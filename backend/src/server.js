@@ -1,47 +1,48 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 import path from "path";
-
-
 
 import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "../config/db.js";
 import rateLimit from "./middleware/rateLimiter.js";
 
-
 const app = express();
-const __dirname = path.resolve()
+const __dirname = path.resolve();
 
 dotenv.config();
-if(process.env.NODE_ENV !== "production"){
-app.use(cors({
-  origin : "http://localhost:5173",
-}))
+if (process.env.NODE_ENV !== "production") {
+  app.use(cors({
+    origin: "http://localhost:5173",
+  }));
 }
 
-//middleware
+// Middleware
+app.use(express.json());
+app.use(rateLimit);
 
-app.use(express.json()); // this will parse the JSON body
-app.use(rateLimit); // apply rate limiting middleware
+// ===================================
+//         ** THE FIX **
+// API routes ko yahan define karein
+// ===================================
+app.use("/api/notes", notesRoutes);
 
-
-if (process.env.NODE_ENV === "production"){
+// Ab Production-specific logic ko handle karein
+if (process.env.NODE_ENV === "production") {
+  // Static files ko serve karein
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
+  // Baaki sab requests ke liye index.html bhej dein (Catch-all)
+  // Ye hamesha API routes ke baad aana chahye
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-  })
+  });
 }
-
-app.use("/api/notes", notesRoutes);
 
 const PORT = process.env.PORT || 5001;
 
-
 connectDB().then(() => {
   app.listen(PORT, () => {
-  console.log("server is listening to the PORT:", PORT);
+    console.log("server is listening to the PORT:", PORT);
+  });
 });
-
-})
