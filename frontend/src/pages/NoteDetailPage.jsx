@@ -64,7 +64,7 @@ try {
   }
 if(loading){
   return(
-    <div className='min-h-screen bg-base-200 flex items-center justify-center'>
+    <div className='flex items-center justify-center min-h-screen bg-base-200'>
       < LoaderIcon className='animate-spin size-10' />
     </div>
   )
@@ -73,22 +73,22 @@ if(loading){
 
   return (
     <div className='min-h-screen bg-base-200'>
-      <div className='contaier mx-auto px-4 py-8'>
+      <div className='px-4 py-8 mx-auto contaier'>
         <div className="max-w-2xl mx-auto">
         <div className='flex items-center justify-between mb-6'>
         < Link to="/" className='btn btn-ghost' > 
-        < ArrowLeftIcon className="h-5 w-5" />
+        < ArrowLeftIcon className="w-5 h-5" />
         Back to notes
         </Link>
         <button onClick={handleDelete} className='btn btn-error btn-outline'>
-          < Trash2Icon className='h-5 w-5'/>
+          < Trash2Icon className='w-5 h-5'/>
           Delete Note
         </button>
         </div>
 
         <div className="card bg-base-100">
           <div className="card-body">
-            <div className="form-control mb-4">
+            <div className="mb-4 form-control">
                   <label className="label">
                     <span className="label-text">Title</span>
                   </label>
@@ -101,20 +101,20 @@ if(loading){
                   />
                 </div>
 
-                <div className="form-control mb-4">
+                <div className="mb-4 form-control">
                   <label className="label">
                     <span className="label-text">Content</span>
                   </label>
                   <textarea
                     type="text"
                     placeholder="Add Content"
-                    className="textarea textarea-bordered h-32"
+                    className="h-32 textarea textarea-bordered"
                     value={notes.content}
                     onChange={(e) => setNotes({...notes, content : e.target.value})}
                   />
 
-                  <div className="card-actions justify-end">
-                    <button className='btn btn-primary mt-4' disabled={save} onClick={handleSave}>
+                  <div className="justify-end card-actions">
+                    <button className='mt-4 btn btn-primary' disabled={save} onClick={handleSave}>
                       {save ? "Saving..." : "Save changes"}
                     </button>
                   </div>
