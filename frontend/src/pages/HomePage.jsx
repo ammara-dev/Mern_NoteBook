@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar'
 import RateLimitedUI from '../components/RateLimitedUI';
 import api from '../lib/axios';
 import toast from "react-hot-toast";
-import NavCard from '../components/Navcard';
+import NavCard from '../components/NavCard';
 import NotesNotFound from '../components/NotesNotFound';
 
 const HomePage = () => {
@@ -37,13 +37,13 @@ const HomePage = () => {
     <div className='min-h-screen'>
       <Navbar/>
       {isRateLimited && < RateLimitedUI/>}
-      <div className='max-w-7xl mx-auto p-4 mt-6'>
-      {loading && <div className='text-center text-primary py-10'>notes laoding ...</div>}
+      <div className='p-4 mx-auto mt-6 max-w-7xl'>
+      {loading && <div className='py-10 text-center text-primary'>notes laoding ...</div>}
 
       {notes.length === 0 && !isRateLimited && < NotesNotFound />}
 
       {notes.length > 0 && !isRateLimited && (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
           {notes.map((note) => (
             < NavCard key={note._id} note={note} setNotes={setNotes}/> //first setNote is the setter function
           ))}
